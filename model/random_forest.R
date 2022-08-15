@@ -135,19 +135,24 @@ final_res <- final_wf %>%
 final_res %>%
   collect_metrics()
 
-final_model = fit(final_wf, df_final)
+foot_model = final_res$.workflow[[1]]
+
+saveRDS(foot_model, here::here("model", "save_model", "soccer_wf_model.rds"))
 
 # test on new data (antoher leauge)
 bundesliga_2010_2022 <- read_csv("data/bundesliga_2010_2022.csv")
 
 df_bclean = cleaning(bundesliga_2010_2022)
 df_finalb = preprocess(df_bclean)
-test = df_finalb %>%  filter(date > '2022-05-01')
+test = df_finalb %>%  filter(saison == 2021) %>% na.omit()
 
+model = read_rds(here::here("model", "save_model", "soccer_wf_model.rds"))
 
-prob = augment(final_model, test) 
+prob = augment(model, test) 
 
-prob %>%
+table = prob %>%
   select(date, Equipe_Domicile, Equipe_Exterieur, Score_Domicile, Score_exterieur, result, .pred_class, contains(".pred_"))
+
+
 
 
