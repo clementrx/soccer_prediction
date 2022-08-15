@@ -1,6 +1,7 @@
 # History files
 .Rhistory
 .Rapp.history
+config.R
 
 # Session Data files
 .RData
@@ -13,6 +14,7 @@
 
 # Output files from R CMD build
 /*.tar.gz
+temp.html
 
 # Output files from R CMD check
 /*.Rcheck/
